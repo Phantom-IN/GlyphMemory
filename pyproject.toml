@@ -1,0 +1,83 @@
+[project]
+name = "glyphmemory"
+version = "0.0.1"
+description = "Lightweight neural handwritten text recognition with persistent few-shot writer adaptation"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { text = "Apache-2.0" }
+authors = [{ name = "GlyphMemory contributors" }]
+keywords = ["htr", "handwriting", "ocr", "ctc", "few-shot", "writer-adaptation"]
+
+dependencies = [
+    "torch>=2.4",
+    # transforms.v2 for augmentation. Hand-rolling elastic and perspective warps
+    # on grid_sample is exactly the kind of solved infrastructure we should not rebuild.
+    "torchvision>=0.19",
+    "numpy>=1.26",
+    "pillow>=10.0",
+    "typer>=0.12",
+    "pyyaml>=6.0",
+]
+
+[dependency-groups]
+# A dependency group, not an optional extra: uv installs it by default for `uv sync`
+# AND `uv run`. As an extra it was dropped whenever uv re-resolved the environment,
+# which is how CI lost `ruff` mid-run.
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+    # Reference oracle for the CTC forced aligner — dev/test only. Nothing in src/glyphmemory
+    # imports this; the aligner is hand-rolled precisely so the shipped recognition path never
+    # depends on it.
+    "torchaudio>=2.4",
+]
+
+[project.scripts]
+glyphmemory = "glyphmemory.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Linux (CI and future Linux dev) pulls torch from the CPU wheel index. The default
+# PyPI Linux wheel bundles CUDA and triton — ~700MB of downloads a CPU-only runner
+# never executes. macOS is unaffected and keeps the PyPI wheel, which carries MPS.
+# Deployment target is CPU, so nothing here needs CUDA.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+torchaudio = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/glyphmemory"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = [
+    # Tests needing IAM/CVL are opt-in and never run in CI.
+    "requires_dataset: needs a restricted dataset that CI must not download",
+    # Multi-process DataLoader tests: each worker re-imports torch under `spawn`, so these
+    # cost seconds rather than milliseconds. Run by default; deselect with -m "not slow".
+    "slow: spawns DataLoader worker processes",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.ruff.lint.flake8-bugbear]
+# Typer's documented idiom is to call these in argument defaults; they are immutable.
+extend-immutable-calls = ["typer.Argument", "typer.Option"]

@@ -1,0 +1,508 @@
+{
+  "fingerprint": "fea77c9aaafd52d4",
+  "writers": [
+    "iam/025",
+    "iam/058",
+    "iam/061",
+    "iam/135",
+    "iam/155",
+    "iam/161",
+    "iam/215",
+    "iam/232",
+    "iam/272",
+    "iam/298",
+    "iam/328",
+    "iam/335",
+    "iam/364",
+    "iam/450",
+    "iam/458",
+    "iam/483",
+    "iam/546",
+    "iam/562",
+    "iam/567",
+    "iam/583"
+  ],
+  "reference_characters": 5813,
+  "outcome_tally": {
+    "correct": 5368,
+    "substitution": 347,
+    "insertion": 44,
+    "deletion": 98
+  },
+  "reachable": {
+    "substitutions": 347,
+    "deletions": 98,
+    "deletion_share_of_errors": 0.2202247191011236
+  },
+  "topk_tables": [
+    {
+      "n": 5,
+      "topk": null,
+      "help": 116,
+      "damage": 337,
+      "neither": 103,
+      "ratio": 0.34421364985163205,
+      "coverage": 0.09654453898246224,
+      "net": -221,
+      "cer_delta": 0.03801823499053845
+    },
+    {
+      "n": 5,
+      "topk": 5,
+      "help": 107,
+      "damage": 235,
+      "neither": 66,
+      "ratio": 0.4553191489361702,
+      "coverage": 0.07084563292238236,
+      "net": -128,
+      "cer_delta": 0.022019611216239462
+    },
+    {
+      "n": 5,
+      "topk": 3,
+      "help": 99,
+      "damage": 188,
+      "neither": 48,
+      "ratio": 0.526595744680851,
+      "coverage": 0.05816982114950512,
+      "net": -89,
+      "cer_delta": 0.015310510923791501
+    },
+    {
+      "n": 5,
+      "topk": 2,
+      "help": 82,
+      "damage": 124,
+      "neither": 27,
+      "ratio": 0.6612903225806451,
+      "coverage": 0.04045841291890953,
+      "net": -42,
+      "cer_delta": 0.007225184930328574
+    },
+    {
+      "n": 10,
+      "topk": null,
+      "help": 123,
+      "damage": 240,
+      "neither": 92,
+      "ratio": 0.5125,
+      "coverage": 0.07900677200902935,
+      "net": -117,
+      "cer_delta": 0.020127300877343886
+    },
+    {
+      "n": 10,
+      "topk": 5,
+      "help": 114,
+      "damage": 173,
+      "neither": 60,
+      "ratio": 0.6589595375722543,
+      "coverage": 0.06025351623545754,
+      "net": -59,
+      "cer_delta": 0.010149664544985377
+    },
+    {
+      "n": 10,
+      "topk": 3,
+      "help": 104,
+      "damage": 143,
+      "neither": 43,
+      "ratio": 0.7272727272727273,
+      "coverage": 0.05035596457718354,
+      "net": -39,
+      "cer_delta": 0.006709100292447962
+    },
+    {
+      "n": 10,
+      "topk": 2,
+      "help": 85,
+      "damage": 109,
+      "neither": 26,
+      "ratio": 0.7798165137614679,
+      "coverage": 0.038201076575794406,
+      "net": -24,
+      "cer_delta": 0.0041286771030449
+    }
+  ],
+  "operating_points": [
+    {
+      "n": 5,
+      "topk": 2,
+      "conf_pct": 0.1,
+      "help": 61,
+      "damage": 42,
+      "ratio": 1.4523809523809523,
+      "coverage": 0.022052439659663137,
+      "net": 19,
+      "cer_delta": -0.003268536039910545
+    },
+    {
+      "n": 5,
+      "topk": 2,
+      "conf_pct": 0.2,
+      "help": 77,
+      "damage": 72,
+      "ratio": 1.0694444444444444,
+      "coverage": 0.030387220003472826,
+      "net": 5,
+      "cer_delta": -0.000860141063134354
+    },
+    {
+      "n": 5,
+      "topk": 2,
+      "conf_pct": 0.3,
+      "help": 79,
+      "damage": 92,
+      "ratio": 0.8586956521739131,
+      "coverage": 0.03438096891821497,
+      "net": -13,
+      "cer_delta": 0.0022363667641493207
+    },
+    {
+      "n": 5,
+      "topk": 3,
+      "conf_pct": 0.1,
+      "help": 75,
+      "damage": 64,
+      "ratio": 1.171875,
+      "coverage": 0.03160270880361174,
+      "net": 11,
+      "cer_delta": -0.0018923103388955788
+    },
+    {
+      "n": 5,
+      "topk": 3,
+      "conf_pct": 0.2,
+      "help": 94,
+      "damage": 112,
+      "ratio": 0.8392857142857143,
+      "coverage": 0.04393123806216357,
+      "net": -18,
+      "cer_delta": 0.0030965078272836744
+    },
+    {
+      "n": 5,
+      "topk": 3,
+      "conf_pct": 0.3,
+      "help": 96,
+      "damage": 137,
+      "ratio": 0.7007299270072993,
+      "coverage": 0.04879319326271922,
+      "net": -41,
+      "cer_delta": 0.007053156717701703
+    },
+    {
+      "n": 10,
+      "topk": 2,
+      "conf_pct": 0.1,
+      "help": 61,
+      "damage": 45,
+      "ratio": 1.3555555555555556,
+      "coverage": 0.02239972217398854,
+      "net": 16,
+      "cer_delta": -0.0027524514020299327
+    },
+    {
+      "n": 10,
+      "topk": 2,
+      "conf_pct": 0.2,
+      "help": 79,
+      "damage": 69,
+      "ratio": 1.144927536231884,
+      "coverage": 0.030039937489147423,
+      "net": 10,
+      "cer_delta": -0.001720282126268708
+    },
+    {
+      "n": 10,
+      "topk": 2,
+      "conf_pct": 0.3,
+      "help": 83,
+      "damage": 86,
+      "ratio": 0.9651162790697675,
+      "coverage": 0.033860045146726865,
+      "net": -3,
+      "cer_delta": 0.0005160846378806125
+    },
+    {
+      "n": 10,
+      "topk": 3,
+      "conf_pct": 0.1,
+      "help": 77,
+      "damage": 58,
+      "ratio": 1.3275862068965518,
+      "coverage": 0.030387220003472826,
+      "net": 19,
+      "cer_delta": -0.003268536039910545
+    },
+    {
+      "n": 10,
+      "topk": 3,
+      "conf_pct": 0.2,
+      "help": 98,
+      "damage": 94,
+      "ratio": 1.0425531914893618,
+      "coverage": 0.040632054176072234,
+      "net": 4,
+      "cer_delta": -0.0006881128505074832
+    },
+    {
+      "n": 10,
+      "topk": 3,
+      "conf_pct": 0.3,
+      "help": 102,
+      "damage": 114,
+      "ratio": 0.8947368421052632,
+      "coverage": 0.04497308560513978,
+      "net": -12,
+      "cer_delta": 0.00206433855152245
+    }
+  ],
+  "pairs": [
+    {
+      "base": "e",
+      "mem": "a",
+      "help": 7,
+      "damage": 1,
+      "neither": 0,
+      "support": 8
+    },
+    {
+      "base": "a",
+      "mem": "o",
+      "help": 6,
+      "damage": 1,
+      "neither": 2,
+      "support": 9
+    },
+    {
+      "base": "o",
+      "mem": "a",
+      "help": 7,
+      "damage": 4,
+      "neither": 1,
+      "support": 12
+    },
+    {
+      "base": "f",
+      "mem": "t",
+      "help": 3,
+      "damage": 3,
+      "neither": 0,
+      "support": 6
+    },
+    {
+      "base": "S",
+      "mem": "s",
+      "help": 2,
+      "damage": 2,
+      "neither": 1,
+      "support": 5
+    },
+    {
+      "base": "n",
+      "mem": "u",
+      "help": 2,
+      "damage": 6,
+      "neither": 0,
+      "support": 8
+    },
+    {
+      "base": "n",
+      "mem": "m",
+      "help": 1,
+      "damage": 4,
+      "neither": 1,
+      "support": 6
+    }
+  ],
+  "geometry": [
+    {
+      "variant": "mean",
+      "help": 82,
+      "damage": 124,
+      "ratio": 0.6612903225806451,
+      "net": -42
+    },
+    {
+      "variant": "residual",
+      "help": 78,
+      "damage": 120,
+      "ratio": 0.65,
+      "net": -42
+    },
+    {
+      "variant": "whiten",
+      "help": 81,
+      "damage": 134,
+      "ratio": 0.6044776119402985,
+      "net": -53
+    },
+    {
+      "variant": "shrink",
+      "help": 79,
+      "damage": 130,
+      "ratio": 0.6076923076923076,
+      "net": -51
+    }
+  ],
+  "writer_level": {
+    "best_point": {
+      "n": 5,
+      "topk": 2,
+      "conf_pct": 0.1,
+      "help": 61,
+      "damage": 42,
+      "ratio": 1.4523809523809523,
+      "coverage": 0.022052439659663137,
+      "net": 19,
+      "cer_delta": -0.003268536039910545
+    },
+    "per_writer": [
+      {
+        "writer": "iam/025",
+        "help": 1,
+        "damage": 3,
+        "net": -2
+      },
+      {
+        "writer": "iam/058",
+        "help": 1,
+        "damage": 3,
+        "net": -2
+      },
+      {
+        "writer": "iam/061",
+        "help": 9,
+        "damage": 1,
+        "net": 8
+      },
+      {
+        "writer": "iam/135",
+        "help": 5,
+        "damage": 2,
+        "net": 3
+      },
+      {
+        "writer": "iam/155",
+        "help": 2,
+        "damage": 3,
+        "net": -1
+      },
+      {
+        "writer": "iam/161",
+        "help": 7,
+        "damage": 6,
+        "net": 1
+      },
+      {
+        "writer": "iam/215",
+        "help": 0,
+        "damage": 0,
+        "net": 0
+      },
+      {
+        "writer": "iam/232",
+        "help": 3,
+        "damage": 2,
+        "net": 1
+      },
+      {
+        "writer": "iam/272",
+        "help": 9,
+        "damage": 4,
+        "net": 5
+      },
+      {
+        "writer": "iam/298",
+        "help": 3,
+        "damage": 0,
+        "net": 3
+      },
+      {
+        "writer": "iam/328",
+        "help": 5,
+        "damage": 1,
+        "net": 4
+      },
+      {
+        "writer": "iam/335",
+        "help": 0,
+        "damage": 1,
+        "net": -1
+      },
+      {
+        "writer": "iam/364",
+        "help": 1,
+        "damage": 5,
+        "net": -4
+      },
+      {
+        "writer": "iam/450",
+        "help": 2,
+        "damage": 1,
+        "net": 1
+      },
+      {
+        "writer": "iam/458",
+        "help": 4,
+        "damage": 0,
+        "net": 4
+      },
+      {
+        "writer": "iam/483",
+        "help": 3,
+        "damage": 3,
+        "net": 0
+      },
+      {
+        "writer": "iam/546",
+        "help": 1,
+        "damage": 1,
+        "net": 0
+      },
+      {
+        "writer": "iam/562",
+        "help": 3,
+        "damage": 1,
+        "net": 2
+      },
+      {
+        "writer": "iam/567",
+        "help": 2,
+        "damage": 2,
+        "net": 0
+      },
+      {
+        "writer": "iam/583",
+        "help": 0,
+        "damage": 3,
+        "net": -3
+      }
+    ],
+    "improved": 10,
+    "harmed": 6,
+    "median_net": 0.5,
+    "bootstrap_ci": [
+      -0.3,
+      2.2
+    ]
+  },
+  "lowo_pair_prior": {
+    "topk": 2,
+    "conf_pct": 0.1,
+    "help": 16,
+    "damage": 4,
+    "ratio": 4.0,
+    "net": 12,
+    "cer_delta": -0.00206,
+    "writers_improved": 9,
+    "writers_harmed": 2,
+    "bootstrap_ci": [
+      0.15,
+      1.05
+    ],
+    "selection": "pairs with help>=2 and help>damage, fitted on 19 writers, applied to the held-out one"
+  },
+  "gate_c2": "WEAK PASS"
+}

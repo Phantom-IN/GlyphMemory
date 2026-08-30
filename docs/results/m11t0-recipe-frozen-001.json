@@ -1,0 +1,84 @@
+{
+  "experiment_id": "m11t0-recipe-frozen-001",
+  "frozen_at": "2026-08-25, before any CONFIRMATION data was read",
+  "selected_lr": 0.03,
+  "steps": 20,
+  "weight_decay": 0.0,
+  "seeds": [
+    1337,
+    1338,
+    1339
+  ],
+  "support_n": 5,
+  "group": "class_bias",
+  "trainable_parameters": 80,
+  "optimizer": "AdamW",
+  "stopping_rule": "fixed step count; no early stopping, no checkpoint selection",
+  "selection_rule": "min mean writer CER delta at n=5 over the pre-registered LR grid",
+  "selected_on": {
+    "cohort": "DEVELOPMENT",
+    "n_writers": 32
+  },
+  "development_result_at_selected_lr": {
+    "mean_delta": -0.0025081460654201404,
+    "median_delta": -0.0016047531789660694,
+    "ci": [
+      -0.005350969796334479,
+      -0.00039078878699399004
+    ],
+    "improved": 19,
+    "harmed": 10,
+    "unchanged": 3,
+    "mean_support_loss_ratio": 0.8032499529697771
+  },
+  "development_grid": {
+    "0.001": {
+      "mean_delta": -0.00010056281834781465,
+      "median_delta": 0.0,
+      "ci": [
+        -0.0006542069571779111,
+        0.00038445868787495834
+      ],
+      "improved": 5,
+      "harmed": 5,
+      "mean_support_loss_ratio": 0.9918058275709762
+    },
+    "0.003": {
+      "mean_delta": -0.0006135149161306334,
+      "median_delta": 0.0,
+      "ci": [
+        -0.0018056097375940504,
+        0.0004007127402887269
+      ],
+      "improved": 9,
+      "harmed": 8,
+      "mean_support_loss_ratio": 0.9758090150347358
+    },
+    "0.01": {
+      "mean_delta": -0.0009141104394042388,
+      "median_delta": 0.0,
+      "ci": [
+        -0.00263347085271173,
+        0.0006024688984181112
+      ],
+      "improved": 13,
+      "harmed": 8,
+      "mean_support_loss_ratio": 0.9237150192939594
+    },
+    "0.03": {
+      "mean_delta": -0.0025081460654201404,
+      "median_delta": -0.0016047531789660694,
+      "ci": [
+        -0.005350969796334479,
+        -0.00039078878699399004
+      ],
+      "improved": 19,
+      "harmed": 10,
+      "mean_support_loss_ratio": 0.8032499529697771
+    }
+  },
+  "step_count_note": "The protocol permitted choosing the step count on DEVELOPMENT alongside the LR. It was NOT searched: every cell ran at the registered maximum of 20 steps. This uses strictly LESS selection freedom than the protocol allowed, never more.",
+  "lr_grid_boundary_note": "The selected rate 3e-02 is the HIGHEST in the pre-registered grid, so the optimum may lie beyond it. The grid is pre-registered and is NOT extended. Recorded as a limitation, not acted on.",
+  "fingerprint": "fea77c9aaafd52d4",
+  "frozen_mean_writer_cer_development": 0.0972014108879314
+}

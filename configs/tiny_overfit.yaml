@@ -1,0 +1,35 @@
+# Tiny-overfit correctness gate.
+#
+# This is a CORRECTNESS GATE, not an experiment. If GM-Base cannot near-memorize a few dozen
+# real lines, STOP: do not launch full training (Gate 2).
+#
+# PASS CRITERION, fixed before the run: train CER <= 0.02 within 500 epochs, greedy decoding,
+# no language model. Also recorded in configs/tiny_overfit_samples.json.
+#
+# Every setting below that differs from configs/default.yaml is a GATE-ONLY setting with a
+# stated reason. None of them may migrate into a real training config.
+name: tiny_overfit_gate
+
+runtime:
+  seed: 1337
+  num_workers: 0          # determinism over throughput; the corpus is tiny
+  log_level: INFO
+
+model:
+  name: diag_gm_base_overfit   # diag_ prefix: a CVL-trained checkpoint is never a baseline
+  gru_dropout: 0.0        # GATE-ONLY. Dropout prevents memorization, which is the signal here.
+  head_dropout: 0.0       # GATE-ONLY. Same reason.
+
+data:
+  augmentation:
+    enabled: false        # GATE-ONLY: the correctness gate requires augmentation off.
+
+training:
+  epochs: 500
+  batch_size: 8
+  learning_rate: 0.0003   # unchanged from default — tuning to pass the gate defeats it
+  weight_decay: 0.0001
+  warmup_ratio: 0.05
+  min_learning_rate: 0.000001
+  grad_clip_norm: 5.0
+  patience: 500           # GATE-ONLY. Early stopping would end the run while still improving.

@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# CI never downloads IAM or CVL.
+# All fixtures are synthetic or in-repo.
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    env:
+      # Set once for every uv command in the job. Without this, the repo's
+      # .python-version (3.11) wins, uv rebuilds the venv mid-job to switch
+      # interpreters, and the rebuilt venv loses the dev tooling.
+      UV_PYTHON: ${{ matrix.python-version }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install project
+        # --locked fails if uv.lock is stale rather than silently re-resolving,
+        # so a forgotten lock update is caught here instead of in a later run.
+        run: uv sync --locked
+
+      - name: Report resolved interpreter
+        run: uv run python -c "import sys; print(sys.version)"
+
+      - name: Lint
+        run: uv run ruff check src tests
+
+      - name: Format check
+        run: uv run ruff format --check src tests
+
+      - name: Import check
+        run: uv run python -c "import glyphmemory; print(glyphmemory.__version__)"
+
+      - name: CLI help
+        run: uv run glyphmemory --help
+
+      - name: Tests
+        run: uv run pytest -v

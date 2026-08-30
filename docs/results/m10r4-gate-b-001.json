@@ -1,0 +1,339 @@
+{
+  "experiment_id": "m10r4-glyph-verifier-gate-b-001",
+  "verdict": "FAIL",
+  "failing_clauses": [
+    "1_delta_auprc",
+    "2_delta_auroc",
+    "3_precision_at_2pct"
+  ],
+  "clauses": {
+    "1_delta_auprc": {
+      "value": -0.09377367713828144,
+      "threshold": 0.05,
+      "ci": [
+        -0.17031100788193548,
+        -0.00592218353455487
+      ],
+      "meets_margin": false,
+      "ci_excludes_zero": true,
+      "pass": false
+    },
+    "2_delta_auroc": {
+      "value": -0.041476407914764146,
+      "threshold": 0.05,
+      "ci": [
+        -0.11473582645727975,
+        0.031167139600874583
+      ],
+      "meets_margin": false,
+      "ci_excludes_zero": false,
+      "pass": false
+    },
+    "3_precision_at_2pct": {
+      "value": 0.5183673469387755,
+      "threshold": 0.65,
+      "detail": {
+        "k": 272,
+        "help": 127,
+        "damage": 118,
+        "neither": 27,
+        "precision": 0.5183673469387755,
+        "net": 9
+      },
+      "pass": false
+    }
+  },
+  "control": "mem_sim",
+  "discrimination": {
+    "mem_sim": {
+      "auroc": 0.6951558467341672,
+      "auprc": 0.6224025405024672
+    },
+    "mem_margin": {
+      "auroc": 0.6495268347561379,
+      "auprc": 0.552483535420924
+    },
+    "differential": {
+      "auroc": 0.5328237707630203,
+      "auprc": 0.40601971015224325
+    },
+    "verifier": {
+      "auroc": 0.653679438819403,
+      "auprc": 0.5286288633641858
+    }
+  },
+  "coverage_table": {
+    "mem_sim": {
+      "0.005": {
+        "k": 68,
+        "help": 45,
+        "damage": 20,
+        "neither": 3,
+        "precision": 0.6923076923076923,
+        "net": 25
+      },
+      "0.01": {
+        "k": 136,
+        "help": 75,
+        "damage": 52,
+        "neither": 9,
+        "precision": 0.5905511811023622,
+        "net": 23
+      },
+      "0.02": {
+        "k": 272,
+        "help": 135,
+        "damage": 108,
+        "neither": 29,
+        "precision": 0.5555555555555556,
+        "net": 27
+      },
+      "0.04": {
+        "k": 544,
+        "help": 205,
+        "damage": 276,
+        "neither": 63,
+        "precision": 0.4261954261954262,
+        "net": -71
+      }
+    },
+    "mem_margin": {
+      "0.005": {
+        "k": 68,
+        "help": 39,
+        "damage": 20,
+        "neither": 9,
+        "precision": 0.6610169491525424,
+        "net": 19
+      },
+      "0.01": {
+        "k": 136,
+        "help": 72,
+        "damage": 47,
+        "neither": 17,
+        "precision": 0.6050420168067226,
+        "net": 25
+      },
+      "0.02": {
+        "k": 272,
+        "help": 129,
+        "damage": 112,
+        "neither": 31,
+        "precision": 0.5352697095435685,
+        "net": 17
+      },
+      "0.04": {
+        "k": 544,
+        "help": 203,
+        "damage": 281,
+        "neither": 60,
+        "precision": 0.4194214876033058,
+        "net": -78
+      }
+    },
+    "differential": {
+      "0.005": {
+        "k": 68,
+        "help": 14,
+        "damage": 47,
+        "neither": 7,
+        "precision": 0.22950819672131148,
+        "net": -33
+      },
+      "0.01": {
+        "k": 136,
+        "help": 36,
+        "damage": 89,
+        "neither": 11,
+        "precision": 0.288,
+        "net": -53
+      },
+      "0.02": {
+        "k": 272,
+        "help": 113,
+        "damage": 128,
+        "neither": 31,
+        "precision": 0.46887966804979253,
+        "net": -15
+      },
+      "0.04": {
+        "k": 544,
+        "help": 204,
+        "damage": 277,
+        "neither": 63,
+        "precision": 0.42411642411642414,
+        "net": -73
+      }
+    },
+    "verifier": {
+      "0.005": {
+        "k": 68,
+        "help": 32,
+        "damage": 31,
+        "neither": 5,
+        "precision": 0.5079365079365079,
+        "net": 1
+      },
+      "0.01": {
+        "k": 136,
+        "help": 70,
+        "damage": 52,
+        "neither": 14,
+        "precision": 0.5737704918032787,
+        "net": 18
+      },
+      "0.02": {
+        "k": 272,
+        "help": 127,
+        "damage": 118,
+        "neither": 27,
+        "precision": 0.5183673469387755,
+        "net": 9
+      },
+      "0.04": {
+        "k": 544,
+        "help": 205,
+        "damage": 276,
+        "neither": 63,
+        "precision": 0.4261954261954262,
+        "net": -71
+      }
+    }
+  },
+  "subgroups": {
+    "development_32": {
+      "n_help_damage": 349,
+      "n_eligible": 396,
+      "prevalence": 0.4498567335243553,
+      "control": {
+        "auroc": 0.6777468152866242,
+        "auprc": 0.6255490790379237
+      },
+      "verifier": {
+        "auroc": 0.6657046178343949,
+        "auprc": 0.5838617174664322
+      },
+      "delta_auprc": -0.041687361571491444,
+      "delta_auroc": -0.01204219745222923,
+      "slots": 396
+    },
+    "confirmation_34": {
+      "n_help_damage": 150,
+      "n_eligible": 168,
+      "prevalence": 0.3333333333333333,
+      "control": {
+        "auroc": 0.7556,
+        "auprc": 0.6434309071227652
+      },
+      "verifier": {
+        "auroc": 0.6506,
+        "auprc": 0.44457292439711815
+      },
+      "delta_auprc": -0.19885798272564703,
+      "delta_auroc": -0.1050000000000001,
+      "slots": 168
+    }
+  },
+  "cohort": {
+    "writers": 61,
+    "emitted_slots": 13588,
+    "reference_characters": 13779,
+    "eligible": 564,
+    "help_damage": 499,
+    "prevalence": 0.4148296593186373,
+    "missing_verifier_profile_entry": 0,
+    "excluded": {},
+    "writers_evaluated": 66,
+    "note": "66 writers evaluated; 61 contributed at least one HELP/DAMAGE slot. The other 5 produced eligible slots that were all NEITHER, or none."
+  },
+  "a1_candidate_accuracy": {
+    "held_out_train_writers": 0.6054687574505806,
+    "validation_writers": 0.7085610200364298,
+    "chance": 0.1111111111111111
+  },
+  "gate_b_prime_router_b_development_cohort": {
+    "auroc": 0.7275,
+    "auprc": 0.6671,
+    "note": "measured in m10r3-design-audit-001 on the 32 development writers, leave-one-writer-out out-of-fold; context only, not gating"
+  },
+  "gate_b_double_prime_latency": {
+    "per_eligible_slot": {
+      "crops": 1,
+      "ms": 13.40241706930101,
+      "median_ms": 14.857541536912322
+    },
+    "all_slots_on_a_line": {
+      "crops": 32,
+      "ms": 229.32254197075963,
+      "median_ms": 362.4678540509194
+    },
+    "base_line_ms_phase15": 35.5,
+    "added_fraction_of_base": 0.37753287519157774
+  },
+  "fingerprint_before": "fea77c9aaafd52d4",
+  "fingerprint_after": "fea77c9aaafd52d4",
+  "training": [
+    {
+      "step": 3800,
+      "lr": 2.0458044895916513e-06,
+      "loss": 1.195023536682129,
+      "char": 0.5943994522094727,
+      "writer": 0.6006240248680115,
+      "train_accuracy": 0.8125,
+      "elapsed_s": 2630.087739666924
+    },
+    {
+      "step": 3900,
+      "lr": 5.123260489995229e-07,
+      "loss": 1.2301008701324463,
+      "char": 0.5310608744621277,
+      "writer": 0.6990399360656738,
+      "train_accuracy": 0.8333333134651184,
+      "elapsed_s": 2701.1161216248292
+    },
+    {
+      "step": 3999,
+      "lr": 5.1261792793910736e-11,
+      "loss": 1.237060308456421,
+      "char": 0.6744987964630127,
+      "writer": 0.562561571598053,
+      "train_accuracy": 0.71875,
+      "elapsed_s": 2772.394503874937,
+      "probe_accuracy": 0.6054687574505806
+    }
+  ],
+  "stop_rule": {
+    "criterion": "docs/results/m10r3-glyph-verifier-preregistration.md section 8, made operational by Addendum A1 before results existed",
+    "a1_held_out_train": 0.6054687574505806,
+    "a1_validation": 0.7085610200364298,
+    "a1_chance": 0.1111111111111111,
+    "branch": "train-side discrimination SUCCEEDS (0.6055 held-out train, 0.7086 validation, against 0.1111 chance) while Gate B FAILS -> transfer/objective failure",
+    "escalation_permitted": false,
+    "consequence": "No architecture widening, no exemplar increase, no retry. Per section 8 this is evidence for docs/M10R-PLAN.md section T's falsification statement, not a tuning problem."
+  },
+  "first_run_cohort_error": {
+    "what_happened": "The first execution of the Gate B script filtered validation writers at >= 12 lines, which is the DEVELOPMENT cohort's rule. That silently dropped all 34 R5A confirmation writers (they hold 6-11 lines), so it evaluated 32 writers instead of the pre-registered 66.",
+    "detected": "by the script's own subgroup output reporting 'confirmation_34: insufficient (0 rows)'",
+    "fix": "MIN_LINES 12 -> 6, with development = writers holding >= 12 lines; the 32/34 split is now asserted at run time",
+    "numbers_from_that_run": {
+      "writers": 32,
+      "eligible": 396,
+      "help_damage": 349,
+      "delta_auprc": -0.041687361571491444,
+      "ci_auprc": [
+        -0.14434917388162272,
+        0.07254955347566028
+      ],
+      "delta_auroc": -0.01204219745222923,
+      "ci_auroc": [
+        -0.11155971100722484,
+        0.08285555024685454
+      ],
+      "control": "mem_sim",
+      "verifier_auprc": 0.5838617174664322,
+      "control_auprc": 0.6255490790379237
+    },
+    "verdict_unchanged": "FAIL on both runs; the corrected cohort makes the failure larger, not smaller. Recorded so the sequence is visible rather than tidied away."
+  },
+  "writers_contributing_help_damage": 61
+}

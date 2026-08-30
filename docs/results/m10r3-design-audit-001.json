@@ -1,0 +1,93 @@
+{
+  "experiment_id": "m10r3-design-audit-001",
+  "date": "2026-08-24",
+  "purpose": "Measure the four quantities the GlyphVerifier design depends on, BEFORE any verifier is built or trained. No learned component exists at the time of this audit.",
+  "checkpoint": {"artifact": "gm-base-v0", "fingerprint": "fea77c9aaafd52d4", "modified": false},
+  "splits_read": ["iam/train", "iam/val"],
+  "iam_test_split_read": false,
+
+  "A_control_strength": {
+    "question": "What must a verifier beat? Gate B in docs/M10R-PLAN.md never stated a margin and never measured the control.",
+    "cohort": "32 IAM validation writers with >=12 lines (the R5A development cohort)",
+    "construction": "base-emitted spans; support n=5; eligibility memory!=base AND memory in base top-2",
+    "emitted_slots": 9288,
+    "reference_characters": 9429,
+    "eligible": 396,
+    "eligible_share_of_slots": 0.04263,
+    "help": 156, "damage": 189, "neither": 51,
+    "help_damage_pool": 345,
+    "prevalence": 0.45217,
+    "discriminators": {
+      "cosine_mem_sim":     {"auroc": 0.6531, "auprc": 0.6006, "note": "Router B's existing memory feature"},
+      "cosine_mem_margin":  {"auroc": 0.5965, "auprc": 0.5496},
+      "router_b_oof":       {"auroc": 0.7275, "auprc": 0.6671, "note": "all 9 features, leave-one-writer-out out-of-fold"}
+    },
+    "precision_at_coverage": {
+      "coverage_is": "share of all 9288 emitted slots intervened on",
+      "cosine":   {"0.005": 0.6889, "0.01": 0.5730, "0.02": 0.5818, "0.04": 0.4691},
+      "router_b": {"0.005": 0.6667, "0.01": 0.7073, "0.02": 0.6623, "0.04": 0.4798}
+    }
+  },
+
+  "B_differential_control": {
+    "question": "Is 'similarity to memory's candidate MINUS similarity to the base's own character' a stronger cheap control? If so, Gate B must use it or the gate is rigged.",
+    "result": "NO -- the differential is markedly WORSE than either arm alone.",
+    "auroc": {"mem_sim": 0.6531, "base_sim_negated": 0.4023, "differential_mem_minus_base": 0.5095},
+    "auprc": {"mem_sim": 0.6006, "base_sim_negated": 0.3776, "differential_mem_minus_base": 0.4346},
+    "interpretation": "base_sim negated scores BELOW chance, i.e. high similarity to the base-emitted character positively predicts HELP. Both similarities are dominated by a common 'how clean is this span' factor; subtracting cancels the informative common mode and keeps the noise.",
+    "base_character_absent_from_profile": {"count": 69, "share_of_help_damage": 0.200},
+    "design_consequence": "A verifier must be TRAINED with a normalised multi-candidate objective. Training for absolute verification and differencing at inference reproduces this cancellation."
+  },
+
+  "C_glyph_geometry": {
+    "question": "docs/M10R-PLAN.md assumed an aligned/emitted span maps to the glyph's pixel range. Does it?",
+    "result": "NO -- a span is roughly a quarter of a glyph.",
+    "cohort": "8 IAM validation writers, 32 lines, image height 64px, horizontal downsample 4",
+    "pixels_per_character": {"source": "line_width / len(reference)", "mean": 20.53, "p10": 15.3, "p50": 20.0, "p90": 24.9, "p99": 34.6},
+    "forced_aligned_span_px": {"mean": 6.01, "p50": 4.0, "p90": 12.0, "p99": 16.0},
+    "emitted_span_frames_eligible_pool": {"mean": 1.09, "p50": 1.0, "max": 3, "one_frame_share": 0.919},
+    "emission_peak_gap_px": {"mean": 20.30, "p50": 18.0, "p90": 34.0, "p99": 54.0},
+    "midpoint_tiled_cell_px": {"mean": 20.05, "p50": 19.0, "p90": 30.0, "p99": 43.0},
+    "ink_extent_within_cell_px": {"mean": 16.46, "p50": 16.0, "p90": 26.0, "p99": 37.0},
+    "design_consequence": "Midpoint tiling between adjacent emission peaks recovers the true per-character width (20.05 measured vs 20.53 reference). Emitted and forced-aligned spans do not. Glyph regions must be reconstructed, not sliced."
+  },
+
+  "D_negative_mining_source": {
+    "question": "Can 'empirically damaging confusion pairs' be mined from IAM TRAIN writers, as required by training on train writers only?",
+    "result": "NO for damage structure; YES for confusability structure.",
+    "slot_accuracy": {"train_clean": 0.9976, "train_augmented": 0.9906, "val_clean": 0.9268},
+    "help_rate_of_help_plus_damage": {"train_clean": 0.0018, "train_augmented": 0.0051, "val_clean": 0.0345},
+    "train_eligible_pool_40_writers": {"help": 6, "damage": 347, "neither": 0},
+    "transfer_train_to_val": {
+      "top2_competitor_graph": {"spearman_rho_clean": 0.882, "spearman_rho_augmented": 0.895, "shared_pairs": 273, "val_competitor_mass_covered": 0.972},
+      "per_pair_help_rate":   {"spearman_rho_clean": 0.362, "spearman_rho_augmented": 0.437, "shared_pairs": 267}
+    },
+    "augmentation_repair": "REJECTED -- train-time augmentation moves slot accuracy only 0.9976 -> 0.9906, nowhere near val's 0.9268.",
+    "design_consequence": "Hard negatives are mined from the base head's top-2 COMPETITOR graph on train writers (transfers, rho=0.882, 97.2% mass) and NOT weighted by train-writer HELP/DAMAGE outcomes (does not transfer, rho=0.362, and is degenerate at a 0.0018 HELP rate). R1's damaging pairs were measured on validation writers and using them would leak the evaluation cohort."
+  },
+
+  "E_ceiling": {
+    "question": "What is the most a PERFECT verifier could deliver, so no later result is over- or under-read?",
+    "cohort": "same 32 validation writers, 9429 reference characters",
+    "top2":         {"eligible": 396, "help": 156, "perfect_absolute_cer_gain": 0.016545, "accept_all_net": -33},
+    "top3":         {"eligible": 553, "help": 193, "perfect_absolute_cer_gain": 0.020469, "accept_all_net": -88},
+    "unrestricted": {"eligible": 945, "help": 222, "perfect_absolute_cer_gain": 0.023544, "accept_all_net": -308},
+    "incumbent_router_b_dev_cohort_cer_delta": -0.0057,
+    "interpretation": "At top-2 eligibility a flawless verifier is worth at most 1.65 percentage points of absolute CER. Router B already realises 0.57pp of that. The branch is competing for roughly 1.1pp."
+  },
+
+  "F_proposed_verifier_cost": {
+    "architecture": "GlyphEncoder(in_channels=2, width=(24,40,80,112), embed=112), stem Conv3x3 s2 + 3 stages of 2 InvertedResidual2D (expansion 4) + GAP + Linear + L2 norm",
+    "input_shape": [2, 64, 40],
+    "parameters": 284752,
+    "parameter_envelope_150k_350k": true,
+    "system_total_with_gm_base_and_router": 1829362,
+    "objective_1_cap": 3000000,
+    "profile_addition_kb_fp16_70_chars": 15.3,
+    "cpu_forward_4_threads_best_of_20_ms": {"batch_1": 11.60, "batch_4": 22.42, "batch_16": 134.83, "batch_64": 508.85},
+    "ms_per_crop": 8.0,
+    "latency_concern": "At ~2 eligible slots per line, this adds roughly 16-23 ms to a 35.5 ms base line latency -- a 45-65% increase. Recorded now as a Pillar-3 risk; measured properly only at integration."
+  },
+
+  "conclusion": "Three of the four assumptions docs/M10R-PLAN.md sections D/E/F-G made about a pixel verifier are measurably wrong: spans are not glyphs, the differential formulation is worse than the incumbent feature, and damage structure cannot be mined from train writers. The confusability structure does transfer and is the legitimate negative-mining source. The design in docs/results/m10r3-glyph-verifier-preregistration.md is built on these measurements."
+}

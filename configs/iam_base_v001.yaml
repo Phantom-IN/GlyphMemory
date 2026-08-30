@@ -1,0 +1,107 @@
+# GM-Base, first full IAM training run.
+#
+# This is the BASELINE every ablation is measured against, so the hyperparameters are
+# left unchanged. Any deviation must be recorded here with its reason
+# and repeated in the run record — an undocumented change makes the result unreproducible,
+# which makes it not evidence.
+#
+# Deviations from configs/default.yaml: none in `training`. The `data` block points at the
+# IAM split; `epochs` is discussed under `training` below.
+name: gm_base_h64_gru192x2_iam_v001
+
+runtime:
+  device: auto          # resolved and logged every run
+  seed: 1337
+  num_workers: 4
+  log_level: INFO
+
+data:
+  dataset: iam
+  # Carries the writer-disjoint split: train 525 writers / 11,025 lines,
+  # val 66 / 1,122, test 66 / 1,128. Writer disjointness is asserted, not assumed.
+  # TEST IS NOT READ BY THIS PHASE.
+  manifest: artifacts/iam/splits/manifest.jsonl
+  image_height: 64
+  max_width: 1600       # 360 IAM lines (2.8% of train) exceed this; they are flagged and
+                        # passed through at full width, never horizontally crushed
+  width_multiple: 16
+
+  # Pixel normalization — the measurement default.yaml deferred is now done.
+  #
+  # Measured over the TRAIN SPLIT ONLY (2,000 sampled lines, 121.7M pixels, after height
+  # normalisation and inversion, excluding width padding): mean 0.0728, std 0.1746.
+  #
+  # The values below are deliberately NOT set to that measurement. Standardising to it would
+  # map background to (0 - 0.0728)/0.1746 = -0.417, and the stem is Conv2d(padding=1) ->
+  # BatchNorm2d: conv padding inserts literal 0.0 at the borders, so a non-zero background
+  # would make every image edge a spurious step the network has to learn to ignore. Padding
+  # chose inversion precisely so background, batch padding and conv padding are all 0.
+  # BatchNorm follows the first conv anyway, so input standardisation buys little here.
+  # Revisit only if the stem loses its BatchNorm.
+  invert_pixels: true
+  pixel_mean: 0.0
+  pixel_std: 1.0
+
+  # Training baseline. Augmentation is ON for the real run — the tiny-overfit gate's
+  # tiny-overfit gate is the only place it must be off.
+  augmentation:
+    enabled: true
+    rotation: true
+    rotation_degrees: 1.0
+    translate: true
+    translate_fraction: 0.02
+    scale: true
+    scale_min: 0.96
+    scale_max: 1.04
+    shear: true
+    shear_degrees: 4.0
+    affine_probability: 0.7
+    brightness: true
+    brightness_strength: 0.2
+    contrast: true
+    contrast_strength: 0.2
+    photometric_probability: 0.5
+    blur: true
+    blur_sigma_max: 0.8
+    blur_probability: 0.15
+    perspective: true
+    perspective_scale: 0.05
+    perspective_probability: 0.15
+    elastic: false
+    elastic_alpha: 12.0
+    elastic_probability: 0.05
+
+model:
+  name: gm_base
+  input_height: 64
+  visual_dim: 192
+  gru_hidden: 192
+  gru_layers: 2
+  gru_dropout: 0.15
+  head_dropout: 0.1
+  max_parameters: 3000000   # GM-Base is 1,544,560; the ceiling is enforced by a test
+
+training:
+  # Training defaults, unchanged.
+  epochs: 100
+  batch_size: 32
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  warmup_ratio: 0.05
+  min_learning_rate: 0.000001
+  grad_clip_norm: 5.0       # if clipping fires constantly, lower the LR — never raise this
+  amp: false                # measured and rejected on both CPU and MPS:
+                             # CPU bfloat16 ~11x slower, MPS float16 ~neutral (0.97x)
+
+evaluation:
+  decoder: greedy           # no language model, ever
+  beam_width: null
+  report_wer: true
+
+memory:
+  enabled: false            # writer memory is enabled separately
+  feature_layer: sequence
+  alpha: 0.5
+  gate_by_emission: true
+  protect_blank: true
+  pooling: posterior_weighted

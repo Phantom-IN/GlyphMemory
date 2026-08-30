@@ -1,0 +1,56 @@
+/data/
+/datasets/
+*.png
+*.jpg
+*.jpeg
+*.tif
+*.tiff
+!docs/**/*.png
+!docs/**/*.jpg
+
+# Run outputs and checkpoints
+artifacts/*
+!artifacts/.gitkeep
+
+!artifacts/charset_*.json
+*.pt
+*.pth
+*.onnx
+*.glyph
+/runs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+/dist/
+/build/
+.pytest_cache/
+.ruff_cache/
+.coverage
+/htmlcov/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+
+publication/build/out/
+publication/supplementary/*.aux
+publication/supplementary/*.log
+publication/supplementary/*.out
+publication/supplementary/*.toc
+
+publication/
+
+docs/*
+!docs/results/
+!docs/results/**
+# Exception within the exception: a process handoff, not a protocol or a result.
+docs/results/publication-handoff.md
+
+CLAUDE.md
+*.pdf
+!publication/**/*.pdf
